@@ -18,8 +18,15 @@ require "action_cable/engine"
 # you've limited to :test, :development, or :production.
 Bundler.require(*Rails.groups)
 
-require_relative '../mingines/landing/lib/landing/engine.rb'
-require_relative '../mingines/blogs/lib/blogs/engine.rb'
+# require_relative '../mingines/core/lib/core/engine.rb'
+# require_relative '../mingines/landing/lib/landing/engine.rb'
+# require_relative '../mingines/blogs/lib/blogs/engine.rb'
+# we need to tell rails where to find and load our engines
+Dir.chdir('mingines') do
+  Dir.glob('*').select { |f| File.directory? f }.each do |name|
+    require_relative "../mingines/#{name}/lib/#{name}/engine.rb"
+  end
+end
 
 module ClassMingines
   class Application < Rails::Application
@@ -34,6 +41,7 @@ module ClassMingines
     # config.time_zone = "Central Time (US & Canada)"
     # config.eager_load_paths << Rails.root.join("extras")
 
+    # we need to tell rails wher to find the engine migrations
     config.paths['db/migrate'] << 'mingines/*/db/migrate'
 
     # Don't generate system test files.
