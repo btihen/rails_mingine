@@ -19,6 +19,7 @@ require "action_cable/engine"
 Bundler.require(*Rails.groups)
 
 require_relative '../mingines/landing/lib/landing/engine.rb'
+require_relative '../mingines/blogs/lib/blogs/engine.rb'
 
 module ClassMingines
   class Application < Rails::Application
@@ -32,6 +33,8 @@ module ClassMingines
     #
     # config.time_zone = "Central Time (US & Canada)"
     # config.eager_load_paths << Rails.root.join("extras")
+
+    config.paths['db/migrate'] << 'mingines/*/db/migrate'
 
     # Don't generate system test files.
     config.generators.system_tests = nil
